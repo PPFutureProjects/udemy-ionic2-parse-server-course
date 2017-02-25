@@ -11,9 +11,9 @@ import 'rxjs/add/operator/map';
 export class SignupPage {
 
   user: User = {
-    name: "",
+    name: "",         // optional
+    email: "",        // optional
     username: "",     // required
-    email: "",
     password: ""      // required
   };
 
@@ -21,7 +21,8 @@ export class SignupPage {
   url: string;
   headers: Headers;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public http: Http, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, 
+      public http: Http, public navParams: NavParams) {
     // Initialize the headers object
     this.headers = new Headers();
     this.headers.append("X-Parse-Application-Id", "AppId1");
@@ -52,14 +53,29 @@ export class SignupPage {
 
     this.url = "https://parse-with-ionic-bdegroot.c9users.io/app1/users"
 
-    // Make Http post request
+    // Make Http post request to create a new user
     this.http.post(this.url, this.user, {headers: this.headers})
       .map(res => res.json())
-      .subscribe(res => {
+      .subscribe(res => { // Login was successfull
         console.log(res);
+        this.alertCtrl
+          .create({
+            title: "Success",
+            message: "Congratulations. Your account has been created. Please login.", buttons: [{
+            text: 'Login',
+            handler: () => {
+              this.navCtrl.pop(); // Take the user back to the login page
+            }
+          }]})
+          .present();
       },
-      err => {
+      err => { // Login was unsuccessfull
         console.log(err);
+        this.alertCtrl
+        .create({ title: "Error", message: err.text(), buttons: [{
+          text: 'OK',
+        }]})
+        .present();
       })
   }
 }
