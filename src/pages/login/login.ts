@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 
-import { NavController, AlertController, NavParams } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { User } from '../../user-model';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { SignupPage } from '../signup/signup';
-
+import { MainPage } from '../main/main';
 
 @Component({
   templateUrl: 'login.html'
@@ -14,7 +14,7 @@ import { SignupPage } from '../signup/signup';
 export class LoginPage {
 
   user: User = {
-    username: "bdegroot",
+    username: "KoekieMonster",
     password: "abc"
   };
 
@@ -47,6 +47,14 @@ export class LoginPage {
     this.http.get(this.url, {headers: this.headers}).subscribe(res => {
       console.log(res);
       // Navigate user to main app page.
+      this.navCtrl.setRoot(MainPage);
+    }, err => {
+      console.log(err);
+      this.alertCtrl
+        .create({ title: "Error", message: err.text(), buttons: [{ 
+          text: 'OK',
+        }]})
+        .present();
     })          
 
   }
