@@ -72,7 +72,7 @@ export class SignupPage {
       err => { // Login was unsuccessfull
         console.log(err);
         this.alertCtrl
-        .create({ title: "Error", message: err.text(), buttons: [{
+        .create({ title: "Error", message: err.text(), buttons: [{ 
           text: 'OK',
         }]})
         .present();
