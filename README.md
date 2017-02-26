@@ -1,1 +1,1 @@
-"# udemy-ionic2-parse-server-course" 
+This project contains all the code from the lectures of the corresponding Udemy course.
