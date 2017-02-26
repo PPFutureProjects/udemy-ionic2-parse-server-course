@@ -24,7 +24,7 @@ export class MainPage {
 
     this.localStorage.get('user').then((value) => {
       this.userId = value;
-      this.getFriends();
+      this.getFriends(null);
       })
     }
 
@@ -67,7 +67,7 @@ export class MainPage {
                 buttons: [{
                   text: "OK",
                   handler: () => {
-                    this.getFriends();
+                    this.getFriends(null);
                   }
                 }]
               }).present();
@@ -88,13 +88,18 @@ export class MainPage {
     }).present();
   }
 
-  getFriends() {
+  getFriends(refresher) {
       // Url with single quotes as we need to specify a condition
      this.url ='https://parse-with-ionic-bdegroot.c9users.io/app1/classes/friendslist?where={"owner":"'+this.userId+'"}';
 
      this.http.get(this.url, {headers: this.headers}).map(res => res.json()).subscribe(res => {
       console.log(res);
       this.friends = res.results;
+
+      if (refresher !== null) {
+        refresher.complete();
+      }
+
      },
      err => {
       console.log(err);

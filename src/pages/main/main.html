@@ -6,6 +6,11 @@
 </ion-header>
 
 <ion-content padding>
+
+  <ion-refresher (ionRefresh)="getFriends($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-fab bottom right>
     <button ion-fab icon-only (click)="showAddDialog()">
       <ion-icon name="add"></ion-icon>
