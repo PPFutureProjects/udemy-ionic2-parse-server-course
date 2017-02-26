@@ -11,6 +11,7 @@ export class MainPage {
 
   headers: Headers;
   url: string;
+  friends: any[];
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, 
     public navParams: NavParams, public http: Http) {
@@ -18,6 +19,7 @@ export class MainPage {
     this.headers = new Headers();
     this.headers.append("X-Parse-Application-Id", "AppId1");
     this.headers.append("X-Parse-Master-Key", "masterKey");
+    this.getFriends();
     }
 
   showAddDialog() {
@@ -77,6 +79,22 @@ export class MainPage {
         }
       ]
     }).present();
+  }
+
+  getFriends() {
+     this.url ="https://parse-with-ionic-bdegroot.c9users.io/app1/classes/friendslist";
+
+     this.http.get(this.url, {headers: this.headers}).map(res => res.json()).subscribe(res => {
+      console.log(res);
+      this.friends = res.results;
+     },
+     err => {
+      console.log(err);
+      this.alertCtrl.create({
+        title: "Error", message: err.text(), buttons: [{
+          text: "OK",
+        }]}).present();
+     })
   }
 
 }

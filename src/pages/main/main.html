@@ -1,12 +1,9 @@
 
 <ion-header>
-
   <ion-navbar>
     <ion-title>Welcome</ion-title>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content padding>
   <ion-fab bottom right>
@@ -16,14 +13,14 @@
   </ion-fab>
 
   <ion-list>
-    <ion-item-sliding>
+    <ion-item-sliding *ngFor="let friend of friends">
       <ion-item>
         <ion-avatar item-left>
           <img src="http://www.lorempixel.com/32/32"/>
         </ion-avatar>
-        <h2>Koekie Monster</h2>
-        <h3>koekiemonster@gmail.com</h3>
-        <p>123456789</p>
+        <h2>{{friend.name}}</h2>
+        <h3>{{friend.email}}</h3>
+        <p>{{friend.number}}</p>
       </ion-item>
 
       <ion-item-options side="right">
