@@ -110,4 +110,34 @@ export class MainPage {
      })
   }
 
+  editFriend(friend) {
+    this.alertCtrl.create({
+      title: "Edit Friend",
+      message: "Edit your friends information here",
+      inputs: [{
+        name: 'name',
+        placeholder: 'Enter the name',
+        value: friend.name
+      },{
+        name: 'email',
+        placeholder: 'Enter the email',
+        value: friend.email
+
+      },
+      {
+        name: "number",
+        placeholder: "Enter the number",
+        value: friend.number
+      }],
+      buttons: [{
+        text: "Cancel"
+      }, {
+        text: "Save",
+        handler: data => {
+          // Perform update on parse server here
+        }
+      }]
+    }).present();
+  }
+
 }
