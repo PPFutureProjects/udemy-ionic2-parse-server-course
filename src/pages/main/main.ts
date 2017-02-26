@@ -164,4 +164,44 @@ export class MainPage {
     }).present();
   }
 
+  deleteFriend(friend) {
+      this.alertCtrl.create({
+      title: "Delete Friend",
+      message: "Are you sure?",
+      buttons: [{
+        text: "No"
+      }, {
+        text: "Yes",
+        handler: () => {
+          // Perform delete on parse server here
+           this.url ="https://parse-with-ionic-bdegroot.c9users.io/app1/classes/friendslist/" + friend.objectId;
+
+           this.http.delete(this.url, {headers: this.headers}).map(res => res.json()).subscribe(
+             res => {
+              console.log(res);
+              this.alertCtrl.create({
+                title: "Success",
+                message: "Friend Deleted Successfully.",
+                buttons: [{
+                  text: 'OK',
+                  handler: () => {
+                    this.getFriends(null);
+                  }
+                }]}).present();
+             },
+             err => {
+              console.log(err);
+              this.alertCtrl.create({
+                title: "Error",
+                message: err.text(),
+                buttons: [{
+                  text: 'OK'
+                }]}).present();
+             }
+           )
+        }
+      }]
+    }).present();
+  }
+
 }
