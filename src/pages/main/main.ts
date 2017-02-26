@@ -67,7 +67,7 @@ export class MainPage {
                 buttons: [{
                   text: "OK",
                   handler: () => {
-
+                    this.getFriends();
                   }
                 }]
               }).present();
