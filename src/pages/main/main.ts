@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Storage } from '@ionic/storage'
+import { Storage } from '@ionic/storage';
+import { LoginPage} from '../login/login';
 
 @Component({
   selector: 'page-main',
@@ -202,6 +203,12 @@ export class MainPage {
         }
       }]
     }).present();
+  }
+
+  logout() {
+    this.localStorage.remove('user').then(() => {
+      this.navCtrl.setRoot(LoginPage);
+    });
   }
 
 }

@@ -15,8 +15,8 @@ import { MainPage } from '../main/main';
 export class LoginPage {
 
   user: User = {
-    username: "KoekieMonster",
-    password: "abc"
+    username: "",
+    password: ""
   };
 
   url: string;
