@@ -52,9 +52,26 @@ export class MainPage {
               image: "http://lorempixel.com/32/32" }, {headers: this.headers}).map(res => res.json())
               .subscribe(res => {
               console.log(res);
+              this.alertCtrl.create({
+                title: "Success",
+                message: "Friend information saved successfully.",
+                buttons: [{
+                  text: "OK",
+                  handler: () => {
+
+                  }
+                }]
+              }).present();
             },
             err =>{
               console.log(err);
+              this.alertCtrl.create({
+                title: "Error",
+                message: err.text(),
+                buttons: [{
+                  text: "OK"
+                }]
+              }).present();
             })
           }
         }
