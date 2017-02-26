@@ -4,6 +4,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import { User } from '../../user-model';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { Storage } from '@ionic/storage'
 
 import { SignupPage } from '../signup/signup';
 import { MainPage } from '../main/main';
@@ -21,7 +22,8 @@ export class LoginPage {
   url: string;
   headers: Headers;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public http: Http) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public http: Http,
+    public localStorage: Storage) {
     // Initialize the headers object
     this.headers = new Headers();
     this.headers.append("X-Parse-Application-Id", "AppId1");
@@ -46,8 +48,11 @@ export class LoginPage {
 
     this.http.get(this.url, {headers: this.headers}).subscribe(res => {
       console.log(res);
-      // Navigate user to main app page.
+      // Save id to local storage and navigate user to main page
+      this.localStorage.set('user', res.json().objectId).then(()=> {
       this.navCtrl.setRoot(MainPage);
+      })
+
     }, err => {
       console.log(err);
       this.alertCtrl

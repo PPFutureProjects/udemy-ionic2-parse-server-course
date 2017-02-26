@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { Storage } from '@ionic/storage'
 
 @Component({
   selector: 'page-main',
@@ -12,14 +13,19 @@ export class MainPage {
   headers: Headers;
   url: string;
   friends: any[];
+  userId: string;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, 
-    public navParams: NavParams, public http: Http) {
+    public navParams: NavParams, public http: Http, public localStorage: Storage) {
     // Initialize the headers object
     this.headers = new Headers();
     this.headers.append("X-Parse-Application-Id", "AppId1");
     this.headers.append("X-Parse-Master-Key", "masterKey");
-    this.getFriends();
+
+    this.localStorage.get('user').then((value) => {
+      this.userId = value;
+      this.getFriends();
+      })
     }
 
   showAddDialog() {
@@ -47,7 +53,8 @@ export class MainPage {
             // post the information to parse server
             this.url ="https://parse-with-ionic-bdegroot.c9users.io/app1/classes/friendslist";
             
-            this.http.post(this.url, { 
+            this.http.post(this.url, {
+              owner: this.userId, 
               name: data.name, 
               email: data.email, 
               number: data.number, 
@@ -82,7 +89,8 @@ export class MainPage {
   }
 
   getFriends() {
-     this.url ="https://parse-with-ionic-bdegroot.c9users.io/app1/classes/friendslist";
+      // Url with single quotes as we need to specify a condition
+     this.url ='https://parse-with-ionic-bdegroot.c9users.io/app1/classes/friendslist?where={"owner":"'+this.userId+'"}';
 
      this.http.get(this.url, {headers: this.headers}).map(res => res.json()).subscribe(res => {
       console.log(res);
