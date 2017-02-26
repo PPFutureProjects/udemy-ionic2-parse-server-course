@@ -95,11 +95,9 @@ export class MainPage {
      this.http.get(this.url, {headers: this.headers}).map(res => res.json()).subscribe(res => {
       console.log(res);
       this.friends = res.results;
-
       if (refresher !== null) {
         refresher.complete();
       }
-
      },
      err => {
       console.log(err);
@@ -122,7 +120,6 @@ export class MainPage {
         name: 'email',
         placeholder: 'Enter the email',
         value: friend.email
-
       },
       {
         name: "number",
@@ -135,6 +132,33 @@ export class MainPage {
         text: "Save",
         handler: data => {
           // Perform update on parse server here
+           this.url ="https://parse-with-ionic-bdegroot.c9users.io/app1/classes/friendslist/" + friend.objectId;
+
+           this.http.put(this.url, {name: data.name, email: data.email, number: data.number}, 
+            {headers: this.headers}).map(res => res.json()).subscribe(
+             res => {
+              console.log(res);
+              this.alertCtrl.create({
+                title: "Success",
+                message: "Friend updated successfully.",
+                buttons: [{
+                  text: 'OK',
+                  handler: () => {
+                    this.getFriends(null);
+                  }
+                }]}).present();
+             },
+             err => {
+              console.log(err);
+              this.alertCtrl.create({
+                title: "Error",
+                message: err.text(),
+                buttons: [{
+                  text: 'OK'
+                }]}).present();
+             }
+           )
+
         }
       }]
     }).present();
